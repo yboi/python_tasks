@@ -49,6 +49,8 @@ def main():
                     print(f"Here is ${change} in change.\nHere is your {user_choose} ☕️. Enjoy!")
                 elif money == MENU[user_choose]["cost"]:
                     print(f"Here is your {user_choose} ☕️. Enjoy!")
+                else:
+                    print("Sorry that's not enough money. Money refunded.")
                 money_in_machine += MENU[user_choose]["cost"]
                 water -= MENU[user_choose]["ingredients"]["water"]
                 coffee -= MENU[user_choose]["ingredients"]["coffee"]
