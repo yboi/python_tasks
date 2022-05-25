@@ -1,3 +1,65 @@
+from main import resources, MENU
+
+
+def report(water, milk, coffee, money_in_machine):
+    print(f" Water: {water}ml\n Milk: {milk}ml\n Coffee: {coffee}g\n Money: ${money_in_machine}")
+
+
+def check_resources(water, milk, coffee, user_choose):
+    if MENU[user_choose]["ingredients"]["water"] > water:
+        print("Sorry there is not enough water.")
+        return False
+    if MENU[user_choose]["ingredients"]["coffee"] > coffee:
+        print("Sorry there is not enough coffee.")
+        return False
+    if user_choose in ("latte", "cappuccino"):
+        if MENU[user_choose]["ingredients"]["milk"] > milk:
+            print("Sorry there is not enough milk.")
+            return False
+    return True
+
+
+def count_coins():
+    print("Please insert coins.")
+    quarters = float(input("how many quarters?: "))
+    dimes = float(input("how many dimes?: "))
+    nickles = float(input("how many nickles?: "))
+    pennies = float(input("how many pennies?: "))
+    coins = float(format((0.25 * quarters) + (0.1 * dimes) + (0.05 * nickles) + (0.01 * pennies), ".2f"))
+    return coins
+
+
+def main():
+    water = resources["water"]
+    milk = resources["milk"]
+    coffee = resources["coffee"]
+    turn_off = True
+    money_in_machine = 0
+    while turn_off:
+        user_choose = input("What would you like? (espresso/latte/cappuccino): ")
+        if user_choose == "turn off":
+            turn_off = False
+            return turn_off
+        if user_choose in ("espresso", "latte", "cappuccino"):
+            print(f"Your choice is {user_choose}")
+            if check_resources(water, milk, coffee, user_choose):
+                money = count_coins()
+                if money > MENU[user_choose]["cost"]:
+                    change = money - MENU[user_choose]["cost"]
+                    print(f"Here is ${change} in change.\nHere is your {user_choose} ☕️. Enjoy!")
+                elif money == MENU[user_choose]["cost"]:
+                    print(f"Here is your {user_choose} ☕️. Enjoy!")
+                money_in_machine += MENU[user_choose]["cost"]
+                water -= MENU[user_choose]["ingredients"]["water"]
+                coffee -= MENU[user_choose]["ingredients"]["coffee"]
+                if user_choose in ("latte", "cappuccino"):
+                    milk -= MENU[user_choose]["ingredients"]["milk"]
+        if user_choose == "report":
+            report(water, milk, coffee, money_in_machine)
+
+
+main()
+
 # TODO 1. Prompt user by asking “What would you like? (espresso/latte/cappuccino):”
 """
 a. Check the user’s input to decide what to do next.
