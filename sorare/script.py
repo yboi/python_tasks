@@ -1,18 +1,48 @@
 import pandas as pd
 from itertools import combinations
-# data = pd.read_excel('julia.xlsx')
-# data = pd.read_excel('sorare_common.xlsx')
-# data = pd.read_excel('anton.xlsx')
-data = pd.read_excel('sorare_limited.xlsx')
 
+print(" 1: julia.xlsx\n 2: sorare_common.xlsx\n 3: anton.xlsx\n 4: sorare_limited.xlsx")
+what_file = int(input("What file do you whant to read?\n"))
 data_values = []
 cards = int(input("How many cards do you need (4 or 5)?\n"))
-remaining_points = int(input("How many remaining points? (110 or 120)?\n"))
-for i in data.values:
-    data_values.append({"name": i[0], "score": i[1], "projection_score": i[2]})
+
+
+def get_file_to_read():
+    global data
+    if what_file == 1:
+        data = pd.read_excel('julia.xlsx')
+    elif what_file == 2:
+        data = pd.read_excel('sorare_common.xlsx')
+    elif what_file == 3:
+        data = pd.read_excel('anton.xlsx')
+    elif what_file == 4:
+        data = pd.read_excel('sorare_limited.xlsx')
+    else:
+        print("Please check what option did you choose... P.S. must something like 1 or 2 or 3 or 4")
+    return data
+
+
+def get_conditions():
+    global remaining_points
+    if cards == 4:
+        remaining_points = 120
+    elif cards == 5:
+        remaining_points = 110
+    else:
+        get_conditions()
+    return remaining_points
+
+
+def getting_all_data_and_values():
+    get_file_to_read()
+    for i in data.values:
+        data_values.append({"name": i[0], "score": i[1], "projection_score": i[2]})
 
 
 def sorare(data_values, print_logs=False):
+    get_file_to_read()
+    get_conditions()
+    getting_all_data_and_values()
     comb = combinations(data_values, cards)
     team_comb = list(comb)
     team_score = {}
