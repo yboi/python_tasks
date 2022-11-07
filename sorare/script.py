@@ -1,23 +1,25 @@
 import pandas as pd
 from itertools import combinations
-
-data = pd.read_excel('sorare_common.xlsx')
+# data = pd.read_excel('julia.xlsx')
+# data = pd.read_excel('sorare_common.xlsx')
 # data = pd.read_excel('anton.xlsx')
-# data = pd.read_excel('sorare_limited.xlsx')
-data_values = []
+data = pd.read_excel('sorare_limited.xlsx')
 
+data_values = []
+cards = int(input("How many cards do you need (4 or 5)?\n"))
+remaining_points = int(input("How many remaining points? (110 or 120)?\n"))
 for i in data.values:
     data_values.append({"name": i[0], "score": i[1], "projection_score": i[2]})
 
 
 def sorare(data_values, print_logs=False):
-    comb = combinations(data_values, 4)
+    comb = combinations(data_values, cards)
     team_comb = list(comb)
     team_score = {}
     for index, value in enumerate(team_comb):
         sum_team = sum([x["score"] for x in value])
         projection_team = sum([x["projection_score"] for x in value])
-        if sum_team > 120:
+        if sum_team > remaining_points:
             continue
         team_score.update({index: projection_team})
 
