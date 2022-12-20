@@ -55,39 +55,25 @@ def sorare(data_values, print_logs=False):
 
     team_score = dict(reversed(sorted(team_score.items(), key=lambda item: item[1])))
 
-    team_count = 0
-    projection_score_max = 0
-    team_index = 0
-    team_index_count = 0
-    sum_team_scoring = 0
+    show_pack_cards = int(input("How many teams do you wanna print?\n"))
+    show_team = 0
     for key, score_value in team_score.items():
         teams = team_comb[key]
-        projection_score_sum = 0
-        team_count += 1
-        if print_logs:
-            print(f"\t\tTeam count {team_count}")
-        for team in teams:
-            projection_score_sum += team["projection_score"]
-            if print_logs:
-                print(team["name"], team["score"])
-        if print_logs:
-            # print(f"Sum SCORE Team {score_value}")
-            print(f"Projection Score SUM {projection_score_sum}")
-        if projection_score_sum > projection_score_max:
-            projection_score_max = projection_score_sum
-            team_index = team_count
-            team_index_count = key
-            sum_team_scoring = score_value
-        if print_logs:
-            print("=" * 40)
+        show_team += 1
 
-    for team in team_comb[team_index_count]:
-        print(team)
-    print(f"Team Number {team_index}\n"
-          f"Projection Score {projection_score_max},\n"
-          f"Team Score {sum_team_scoring}\n")
+        if show_team <= show_pack_cards:
+            total_team_score = 0
+            total_team_projection_score = 0
+            for team in teams:
+                total_team_score += team["score"]
+                total_team_projection_score += team["projection_score"]
+                print(team)
+            print(f"Team Score {total_team_score} Projection Score {total_team_projection_score}")
+            print("=" * 70)
+        else:
+            break
 
 
-sorare(data_values, print_logs=False)
+sorare(data_values)
 
 
